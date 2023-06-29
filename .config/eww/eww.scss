@@ -1,0 +1,179 @@
+// This config is licensed under CC0 (creativecommons.org/publicdomain/zero/1.0/). 
+// That means I (Swexti#8112) waive my rights into the public domain.
+// Distribute, Adapt, Use or even Sell this script, without credit or attribution.
+
+// Normal Colors
+$black: #565869;
+$red: #ff5c57;
+$green: #2dae58;
+$yellow: #cf9c00;
+$blue: #09a1ed;
+$magenta: #f767bb;
+$cyan: #13bbb7;
+$white: #fafbf9;
+
+// Bright Colors
+$br_black: #75798f;
+$br_red: #ffaeac;
+$br_green: #35cf68;
+$br_yellow: #f5b900;
+$br_blue: #14b1ff;
+$br_magenta: #ff94d2;
+$br_cyan: #13bbb7;
+$br_white: #ffffff;
+
+//BG
+$bg1: #fafbfc;
+$bg2: #f3f4f5;
+$bg3: #ececec;
+
+//FG
+$fg1: #565869;
+$fg2: #75798f;
+
+//entire window
+* {
+    all: unset;
+}
+
+//entire bar
+.bar {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 8px;
+    //margin-bottom: 8px;
+}
+
+//all widgets
+.b_apps, .b_weather, .b_workspaces, .b_search, .bar_middle, .bar_right_contents {
+    background-color: $bg1;
+    color: $fg1;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 24px;
+    font-family: Cartograph CF;
+    //box-shadow: 4px 3px 5px -1px $black;
+}
+
+.b_volume {
+    background-color: $bg1;
+    padding-right: 10px;
+    margin-right: 12px;
+    padding-left: 10px;
+    color: $fg1;
+    border-radius: 24px;
+}
+
+//all icons
+.icon image {
+    //min-width: 30px;
+    padding-right: 5px;
+}
+
+
+//weather widget
+.b_weather {
+    margin-left: 16px;
+}
+
+//currently open app widget
+.open_app {
+    color: $red;
+    font-weight: bold;
+    min-width: 200px;
+}
+
+.b_workspaces {
+    margin-left: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .active_wsp, .inactive_wsp {
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+}
+
+.separator {
+    margin-left: 5px;
+    margin-right: 12px;
+}
+
+scale trough {
+    all: unset;
+    background-color: $bg3;
+    border-radius: 50px;
+    min-width: 80px;
+    min-height: 10px;
+    margin: 0 8px 0 8px;
+}
+
+scale trough highlight {
+    all: unset;
+    background-color: $red;
+    //min-height: 10px;
+    border-radius: 10px;
+}
+
+
+//left widgets
+.module-volume {
+    //margin-right: 10px;
+    font-family: Cartograph CF;
+    color: $red;
+}
+
+.uptime {
+    margin-right: 10px;
+    font-family: Cartograph CF;
+    font-weight: Bold;
+}
+
+.packages {
+    color: $red;
+}
+
+.memory {
+    color: $br_yellow;
+}
+
+.cpu {
+    color: $green;
+}
+
+.disk {
+    color: $br_green;
+}
+
+.network {
+    color: $cyan;
+    margin-top: 0px;
+    & label {
+        font-size: 12px;
+    }
+}
+
+.clock {
+    color: $blue;
+}
+
+.packages, .memory, .cpu, .disk, .network, .clock {
+    font-size: 14px;
+    margin-right: 16px;
+    & image {
+        margin-right: 5px;
+    }
+    & label {
+        min-width: 27px;
+    }
+}
+
+.powermenu {
+    background-color: $magenta;
+    border-radius: 50px;
+    padding-left: 4px;
+    padding-right: 4px;
+    //padding-top: 4px;
+    //padding-bottom: 4px;
+    margin: 2px;
+    margin-right: -20px;
+}

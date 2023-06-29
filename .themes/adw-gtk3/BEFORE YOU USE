@@ -1,0 +1,3 @@
+I'm not sure if this theme is copy-able. I used gradience to make this theme, and I'm pretty sure you need that as well. Because of this, I've included the gradience config as well under .var. Don't forget to install adw-gtk3 as a flatpak, too.
+
+You cannot find this theme inside `lxappearance`. Apply it in ~/.config/gtk-3.0/settings.ini.

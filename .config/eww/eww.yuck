@@ -1,0 +1,247 @@
+;This config is licensed under CC0 (creativecommons.org/publicdomain/zero/1.0/). 
+;That means I (Swexti#8112) waive my rights into the public domain.
+;Distribute, Adapt, Use, Modify, or even Sell this script, without credit or attribution.
+;Icons: Iconoir, Majesticons, Coolicons, Fluent
+
+;left
+
+(defwidget apps []
+  (box :orientation "h" :class "b_apps" :space-evenly "false"
+    (button :onclick "" :class "icon"
+      (image :image-width 25 
+             :path "./icons/majesticons/planet-ring-2.svg")
+    )
+    (label :text "|" :class "separator")
+    (button :onclick "alacritty" :class "icon"
+      (image :image-width 25 
+             :path "./icons/coolicons/window-terminal.svg")
+    )
+    (button :onclick "firefox" :class "icon"
+      (image :image-width 25 
+             :path "./icons/majesticons/globe-earth-2.svg")
+    )
+    (button :onclick "nemo" :class "icon"
+      (image :image-width 25 
+             :path "./icons/coolicons/folder.svg")
+    )
+  )
+)
+
+(defwidget weather []
+  (box :orientation "h" :space-evenly "false" :class "b_weather"
+    (label :text "OO")
+    (label :text "24 C")
+  )
+)
+
+(defwidget workspaces []
+  (box :orientation "h" :class "b_workspaces" :valign "center"
+    (literal :content "${workspace_script}")
+  )
+)
+
+(deflisten workspace_script `./scripts/workspace.sh`)
+
+;//
+;Middle
+;//
+
+(deflisten open_app_script `./scripts/window.sh`)
+
+(defwidget open_app []
+  (box :orientation "h" :class "open_app"
+    (label :text "${open_app_script}")
+  )
+)
+
+;//
+;Right
+;//
+
+;uptime
+(defpoll uptime :interval "1m" `uptime | awk '{ if (length($1)>5) {print substr($1, 1, length($1)-3)} else {print $1}}'`)
+
+(defwidget uptime []
+  (box :orientation "h" :class "uptime"
+    (label :text 'Up ${uptime}')
+  )
+)
+
+;volume
+(defvar reveal1 false)
+(defpoll current_volume :interval "1s" "./scripts/volume.sh --get")
+(defpoll volume_icon :interval "1s" "./scripts/volume.sh --icon") ;I would *really* like to figure out how to change the icon *when* I'm adjusting the volume, not always. Just like xprop -spy can do, but for the volume. If anyone knows how to do this, reach out to me wherever!
+
+(defwidget hover-revealer [var varname ?transition]
+  (box :orientation "h" :space-evenly "false"
+    (eventbox :class "eventbox"
+              :onhover "${EWW_CMD} update ${varname}=true"
+              :onhoverlost "${EWW_CMD} update ${varname}=false"
+      (box :space-evenly "false"
+        (revealer :reveal var 
+                  :transition {transition ?: "slideright"}
+                  :duration "500ms"
+          (children :nth 0)
+        )
+        (children :nth 1)
+      )
+    )
+  )
+)
+
+(defwidget module [vara varname icon ?class]
+  (box :space-evenly "false" :class "module-${class}"
+    (hover-revealer :var vara 
+                    :varname "${varname}" 
+                    :icon icon
+      (box :orientation "h" :space-evenly "false"
+        (label :text "${current_volume}%")
+        (scale :value "${current_volume}" :min "0" :max "101" :onchange "./scripts/volume.sh --set {}" :timeout "1s")
+      )
+      (box :orientation "h" 
+        (button :onclick "./scripts/volume.sh --toggle" :onrightclick "pavucontrol"
+          (image :image-width 25 :path "${volume_icon}")
+        )
+      )
+    )  
+  )
+)
+
+(defwidget volume []
+  (box :orientation "h" :class "b_volume"
+    (module :vara reveal1 :varname "reveal1" :icon "V" :class "volume")
+  )
+)
+
+;packages
+(defpoll packages :interval "1m" `dpkg -l | wc --lines`)
+(defpoll package_update :interval "1m" `./scripts/update.sh`)
+
+(defwidget packages []
+  (box :orientation "h" :class "packages" :space-evenly "false"
+    (image :image-width 20 :path "./icons/iconoir/packages.svg")
+    (label :text "${packages} @${package_update} Days")
+  )
+)
+
+;memory
+(defwidget memory []
+  (box :orientation "h" :class "memory" :space-evenly "false"
+    (image :image-width 20 :path "./icons/fluent/memory-16-filled.svg")
+    (label :text "${round(EWW_RAM.used_mem_perc, 0)}%")
+  )
+)
+
+;cpu
+(defwidget cpu []
+  (box :orientation "h" :class "cpu" :space-evenly "false"
+    (image :image-width 20 :path "./icons/majesticons/cpu-line.svg")
+    (label :text "${round(EWW_CPU.avg, 0)}%")
+  )
+)
+
+;disk
+(defwidget disk []
+  (box :orientation "h" :class "disk" :space-evenly "false"
+    (image :image-width 20 :path "./icons/iconoir/save-floppy-disk.svg")
+    (label :text "${round((EWW_DISK['/'].free / 1000000000),1)} GB")
+  )
+)
+
+;network
+(defwidget network []
+  (box :orientation "v" :class "network" :space-evenly "false"
+    (box :orientation "h" :space-evenly "false"
+      (image :image-width "16" :path "./icons/coolicons/arrow-down-sm.svg")
+      (label :text "${round(EWW_NET['enp5s0'].NET_DOWN / 1000000, 2)} MB")
+    )
+    (box :orientation "h" :space-evenly "false"
+      (image :image-width "16" :path "./icons/coolicons/arrow-up-sm.svg")
+      (label :text "${round(EWW_NET['enp5s0'].NET_UP / 1000000, 2)} MB")
+    )
+  )
+)
+
+;time
+(defvar date false)
+(defvar clock true)
+(defpoll time :interval "1s" `date +%H:%M`)
+(defpoll cur_date :interval "1s" "date +%m-%d/%y")
+
+(defwidget clock []
+  (box :orientation "h" :class "clock" :space-evenly "false"
+    (button :onclick { "${date}" ? "${EWW_CMD} update date=false; ${EWW_CMD} update clock=true" : "${EWW_CMD} update date=true; ${EWW_CMD} update clock=false" } ;kinda hacky, but it works alright.
+      (box :space-evenly "false"
+        (image :image-width 20 :path "./icons/majesticons/clock.svg")
+        (box :visible "${date}" 
+          (label :text "${cur_date}")
+        )
+        (box :visible "${clock}"
+          (label :text "${time}")
+        )
+      )
+    )
+  )
+)
+
+;powermenu
+(defwidget powermenu []
+  (box :orientation "h" :class "powermenu"
+    (button :onclick "" 
+      (image :image-width 25 :path "./icons/tabler icons/power.svg")
+    )
+  )
+)
+
+(defwindow bar
+           :monitor "DP-1"
+           :geometry (geometry :x "0"
+                               :y "0"
+                               :width "100%"
+                               :height "42px"
+                               :anchor "top center")
+           :stacking "fg"
+           :reserve (struts :distance "48px" :side "top")
+           :windowtype "dock"
+           :wm-ignore false
+  (centerbox :orientation "h" :class "bar"
+    (box :orientation "h" :class "bar_left" :halign "start" :space-evenly "false"
+      (apps)
+      (workspaces)
+    )
+    (box :orientation "h" :class "bar_middle" :halign "center"
+      (open_app)
+      ;(volume)
+    )
+    (box :orientation "h" :class "bar_right" :halign "end" :space-evenly "false"
+      (uptime)
+      (volume)
+      (box :orientation "h" :class "bar_right_contents" :space-evenly "false"
+        (packages)
+        (memory)
+        (cpu)
+        (disk)
+        (network)
+        (clock)
+        (powermenu)
+      )
+    )
+  )
+)
+
+(defwindow right_bar
+            :monitor "HDMI-0"
+            :geometry (geometry :x "0"
+                                :y "0"
+                                :width "100px"
+                                :height "42px"
+                                :anchor "top left")
+            :stacking "fg"
+            :reserve (struts :distance "46px" :side "top")
+            :windowtype "dock"
+            :wm-ignore false
+            
+            (box :orientation "h" :class "r_bar"
+              (workspaces)
+            )
+)
