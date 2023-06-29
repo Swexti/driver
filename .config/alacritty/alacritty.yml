@@ -1,0 +1,103 @@
+env:
+  TERM: xterm-256color
+
+window:
+  dimensions:
+    columns: 100
+    lines: 60
+  dynamic_padding: true
+  decorations: full
+  title: Alacritty@Garuda
+  opacity: 1
+  class:
+    instance: Alacritty
+    general: Alacritty
+  gtk_theme_variant: dark
+  padding:
+    x: 25
+    y: 25
+
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  size: 10
+  normal:
+    family: Cartograph CF
+    style: Regular
+  bold:
+    style: Bold  
+    family: Cartograph CF
+  italic:
+    family:  Cartograph CF
+    style: Regular Italic
+  bold_italic:
+    family:  Cartograph CF
+    style: Bold Italic
+
+draw_bold_text_with_bright_colors: true
+
+save_to_clipboard: true
+
+window.dynamic_title: true
+
+cursor:
+  style:
+    shape: Beam
+    blinking: Always
+  blink_interval: 500
+  unfocused hollow: true
+  thickness: 0.15
+
+live_config_reload: true
+
+shell:
+  program: /usr/bin/fish
+  args:
+    - --login
+
+mouse:
+  hide_when_typing: true
+
+key_bindings:
+    # (Windows, Linux, and BSD only)
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+
+colors:
+  # Default colors
+  primary:
+    background: '0xfafbfc'
+    foreground: '0x565869'
+
+  # Normal colors
+  normal:
+    black:   '0x565869'
+    red:     '0xff5c57'
+    green:   '0x2dae58'
+    yellow:  '0xcf9c00'
+    blue:    '0x09a1ed'
+    magenta: '0xf767bb'
+    cyan:    '0x13bbb7'
+    #white:   '0xfafbf9'
+    white:   '0x565869' 
+
+  # Bright colors
+  bright:
+    black:   '0x75798f'
+    red:     '0xffaeac'
+    green:   '0x35cf68'
+    yellow:  '0xf5b900'
+    blue:    '0x14b1ff'
+    magenta: '0xff94d2'
+    cyan:    '0x13bbb7'
+    #white:   '0xffffff'
+    white:   '0x75798f'
