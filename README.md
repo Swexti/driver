@@ -29,14 +29,14 @@
 * [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
 * [ewmhtags](https://dwm.suckless.org/patches/ewmhtags/)
 * [gridmode](https://dwm.suckless.org/patches/gridmode/)
+* attachbelow
 
 ### dmenu patches
 * [center](https://tools.suckless.org/dmenu/patches/center/)
 * [fuzzymatch](https://tools.suckless.org/dmenu/patches/fuzzymatch/)
 
 ## Specs
-* **GPU**: GTX 770 (primary)
-	* GTX 750 TI (secondary)
+* **GPU**: GTX 1060 6GB
 * **CPU**: AMD FX-6300
 * **HDD**: 
 	* 800 GB Linux Partition 
