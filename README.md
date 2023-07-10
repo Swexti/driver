@@ -25,7 +25,6 @@
 // I just started using dwm, so there might be more patches in the future. //
 * [anybar](https://dwm.suckless.org/patches/anybar/)
 * [autostart](https://dwm.suckless.org/patches/autostart/) (since I use LightDM, `.xinitrc` is ignored, and I could not find any other way to do this.)
-* [gaps](https://dwm.suckless.org/patches/gaps/)
 * [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
 * [ewmhtags](https://dwm.suckless.org/patches/ewmhtags/)
 * [gridmode](https://dwm.suckless.org/patches/gridmode/)
